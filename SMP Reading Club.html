@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SMP Reading Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFBFD;--card:#fff;--ink:#0E1A33;--mut:#6B7790;--line:#E7ECF4;--blue:#0B52E0;--soft:#EAF1FF;--yel:#FFE93A;--yelsoft:#FFF8C2;--ok:#12B76A;--bad:#F04438;--red:#E8141C;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A101F;--card:#111A30;--ink:#EEF2FF;--mut:#93A1BF;--line:#1F2B47;--blue:#5B97FF;--soft:#16264A;--yelsoft:#3A3510;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A101F;--card:#111A30;--ink:#EEF2FF;--mut:#93A1BF;--line:#1F2B47;--blue:#5B97FF;--soft:#16264A;--yelsoft:#3A3510;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans Thai",system-ui,sans-serif;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;gap:4px;height:58px;overflow-x:auto}
+.logo{font-weight:700;margin-right:auto;white-space:nowrap}.logo i{font-style:normal;background:var(--yel);color:#0E1A33;border-radius:8px;padding:1px 7px;margin-right:6px}
+nav a,nav button{color:var(--mut);text-decoration:none;font:500 14px inherit;font-family:inherit;padding:6px 12px;border-radius:99px;border:0;background:none;cursor:pointer;white-space:nowrap}
+nav a:hover{color:var(--ink)}
+nav a.v{background:var(--blue);color:#fff}
+.hero{padding:44px 0 20px;display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:center}
+@media(max-width:720px){.hero{grid-template-columns:1fr}}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.2;margin:10px 0;letter-spacing:-.02em}
+h1 mark{background:linear-gradient(transparent 62%,var(--yel) 62%);color:inherit}
+.pill{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--mut);border:1px solid var(--line);background:var(--card);border-radius:99px;padding:4px 12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+.stat b{display:block;font-size:24px;letter-spacing:-.02em}.stat span{font-size:12px;color:var(--mut)}
+.ringbox{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:10px}
+.ringbox svg{flex:none}
+section{margin:44px 0}
+h2{font-size:22px;margin:0 0 4px;letter-spacing:-.01em}.sub{color:var(--mut);font-size:14px;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.seg{display:inline-flex;background:var(--soft);border-radius:12px;padding:3px;overflow-x:auto;max-width:100%}
+.seg button{border:0;background:none;color:var(--mut);font:600 14px inherit;font-family:inherit;padding:7px 14px;border-radius:9px;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--blue);box-shadow:0 1px 3px rgba(11,26,51,.12)}
+.search{flex:1;min-width:140px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:9px 14px;font:inherit;font-size:14px}
+.tools{display:flex;gap:6px;align-items:center;margin-left:auto}
+.ib{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:5px 10px;cursor:pointer;font:600 13px inherit;font-family:inherit}
+.meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin:6px 0 14px}
+.meta span{background:var(--soft);border-radius:99px;padding:2px 10px}
+.meta .t{background:var(--yelsoft);color:var(--ink)}
+.txt p{margin:0 0 14px;line-height:1.85}
+.w{border:0;background:var(--yelsoft);color:inherit;font:inherit;border-radius:5px;padding:0 3px;cursor:pointer;border-bottom:2px solid var(--yel)}
+#tip{min-height:48px;background:var(--soft);border-radius:12px;padding:10px 14px;font-size:14px;margin:4px 0 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.q b{display:block;margin-bottom:8px}
+.q button{display:block;width:100%;text-align:left;margin:6px 0;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font:inherit;font-size:15px}
+.q button:hover:not(:disabled){border-color:var(--blue)}
+.q .right{background:#D1FADF;border-color:var(--ok);color:#054F31}.q .wrong{background:#FEE4E2;border-color:var(--bad);color:#7A271A}
+.btn{border:0;background:var(--blue);color:#fff;border-radius:12px;padding:11px 22px;font:600 15px inherit;font-family:inherit;cursor:pointer}
+.btn.y{background:var(--yel);color:#0E1A33}
+.btn:disabled{opacity:.6;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin-top:10px}
+.bars div{flex:1;text-align:center;font-size:11px;color:var(--mut)}
+.bars i{display:block;background:var(--soft);border-radius:6px 6px 0 0;margin-bottom:4px;transition:height .4s}
+.bars .today i{background:var(--blue)}
+.chip{display:inline-block;background:var(--soft);border-radius:99px;padding:3px 12px;margin:3px 4px 3px 0;font-size:13px}
+.calwrap{overflow-x:auto}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(76px,1fr));gap:8px;min-width:580px}
+.cal .h{text-align:center;font-size:12px;color:var(--mut)}
+.cal button{min-height:98px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:9px;text-align:left;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;font:600 13px inherit;font-family:inherit;cursor:pointer;transition:.15s}.cal button:hover{transform:translateY(-2px);box-shadow:0 6px 16px -8px rgba(11,82,224,.35)}.cal b{font-size:14px}.cal .lvl{font-size:10px;font-weight:700;background:var(--soft);color:var(--blue);border-radius:6px;padding:0 6px}.cal .today .lvl{background:var(--yel);color:#0E1A33}.cal .ti{font-size:11px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cal button small{display:block;font-size:10px;color:var(--mut);font-weight:600;margin-top:auto}
+.cal .done{background:var(--soft);color:var(--blue);border-color:transparent}
+.cal .lock{opacity:.45}
+.cal .today{background:var(--blue);color:#fff;border-color:var(--blue)}.cal .today small{color:#dbe7ff}
+.cal .sel{outline:2px solid var(--yel);outline-offset:1px}
+#cd{margin-top:14px;background:var(--soft);border-radius:14px;padding:14px;font-size:14px}
+.lb{width:100%;border-collapse:collapse;font-size:15px}
+.lb td{padding:11px 6px;border-bottom:1px solid var(--line)}
+.lb tr.me td{background:var(--yelsoft);font-weight:700}
+.lb td:first-child{width:36px}.lb td:last-child{text-align:right;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,80px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:14px;transition:.3s;z-index:40}
+.toast.on{transform:translate(-50%,0)}
+footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;color:var(--mut);font-size:13px}
+.card,.stat,.ringbox{box-shadow:0 10px 28px -14px rgba(11,82,224,.22)}
+.hero{position:relative}.hero::before{content:"";position:absolute;right:-40px;top:0;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,var(--yel),transparent 68%);opacity:.4;z-index:-1}.hero::after{content:"";position:absolute;left:-60px;bottom:-30px;width:300px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--blue),transparent 70%);opacity:.14;z-index:-1}
+.car{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 16px;scrollbar-width:none}.car::-webkit-scrollbar{display:none}
+.cc{flex:0 0 calc((100% - 32px)/3);scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;cursor:pointer;transition:.2s;box-shadow:0 10px 28px -14px rgba(11,82,224,.28)}.cc:hover{transform:translateY(-5px)}
+@media(max-width:720px){.cc{flex-basis:78%}}
+.cc .top{position:relative;overflow:hidden;height:124px;display:flex;align-items:flex-end;justify-content:space-between;padding:14px;color:#fff}.cc .top::after{content:"";position:absolute;right:-34px;top:-34px;width:120px;height:120px;border-radius:50%;background:var(--yel)}.cc .top b{font-size:46px;line-height:1;letter-spacing:-.03em;position:relative;z-index:1}.cc .top span{position:relative;z-index:1;font-size:12px;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 10px}
+.cc .bd{padding:14px 16px 18px}.cc h3{font-size:17px;margin:6px 0}
+.th{display:block;color:var(--mut);font-size:.82em;margin-top:2px}.serif{font-family:Georgia,"Noto Serif Thai",serif}.ib.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.note{width:100%;margin-top:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 14px;font:inherit;font-size:14px;resize:vertical}
+
+.car{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));overflow:visible;scroll-snap-type:none}.cc{flex:none}.cc:hover{transform:translateY(-6px) rotate(-.6deg)}
+.cc .top i{position:absolute;left:14px;top:12px;font-style:normal;z-index:1;font-size:12px;background:rgba(255,255,255,.25);border-radius:99px;padding:2px 10px}
+#prog{position:fixed;left:0;top:env(safe-area-inset-top,0px);height:5px;width:0;background:linear-gradient(90deg,var(--yel),var(--blue));z-index:50;border-radius:0 5px 5px 0}
+.ahero{border-radius:26px;color:#fff;padding:26px 24px 30px;margin:16px 0 28px;position:relative;overflow:hidden;min-height:190px}
+.ahero::after{content:"";position:absolute;right:-60px;top:-60px;width:230px;height:230px;border-radius:50%;background:var(--yel)}
+.ahero .lvl{position:absolute;right:26px;top:8px;font-size:92px;font-weight:700;line-height:1;color:#0E1A33;z-index:1;letter-spacing:-.04em}
+.ahero h1{margin:44px 0 12px;color:#fff;position:relative;z-index:1;max-width:80%}
+.ahd{position:relative;z-index:1}.ahd span{display:inline-block;background:rgba(255,255,255,.22);border-radius:99px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0}
+.art{max-width:720px;margin:0 auto 40px}.art p{line-height:1.95;margin:0 0 18px}
+.art p.f::first-letter{float:left;font-size:3.3em;line-height:.9;padding:6px 10px 0 0;font-weight:700;color:var(--blue)}
+.art h3{display:inline-block;margin:30px 0 10px;font-size:22px;background:linear-gradient(transparent 62%,var(--yel) 62%)}
+.sp{border:0;background:var(--soft);border-radius:99px;font-size:12px;cursor:pointer;padding:1px 7px;margin-left:6px;vertical-align:middle}
+.thx{background:var(--yelsoft);border-radius:14px;padding:12px 16px;font-size:15px;margin:0 0 20px}
+#tip{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;box-shadow:0 8px 24px -10px rgba(11,26,51,.4)}
+.vr{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.vr span{flex:1;color:var(--mut)}
+.nx{margin-top:24px;display:block;width:100%;text-align:left;background:var(--soft);border:0;border-radius:16px;padding:16px 18px;color:var(--ink);font:600 15px inherit;font-family:inherit;cursor:pointer}
+.conf{position:fixed;top:-30px;z-index:60;font-size:26px;animation:fall 2.2s ease-in forwards;pointer-events:none}
+@keyframes fall{to{transform:translate(var(--x),112vh) rotate(540deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.conf{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+<span class="logo"><i>SMP</i>Reading Club</span>
+<a href="#cal">Calendar</a><a href="#read">Reading</a><a href="#progress">Progress</a><a href="#lb">Leaderboard</a>
+<button id="th" aria-label="สลับธีม">🌓</button>
+<a class="v" href="https://smartmathpro.com" target="_blank" rel="noopener">SMP Vocab ↗</a>
+</nav></div></header>
+
+<div class="wrap" id="home">
+<div class="hero">
+<div>
+<span class="pill">✍️ บทความโดยทีมวิชาการภาษาอังกฤษ Smart Math Pro</span>
+<h1>อ่านวันละบทความ<br>เก่งอังกฤษแบบ <mark>ไม่ต้องฝืน</mark></h1>
+<p style="color:var(--mut);margin:0 0 18px">บทความระดับ A1–C2 สำหรับน้องที่เตรียมสอบเข้ามหาวิทยาลัย อ่าน ทำควิซ เก็บคำศัพท์ และสะสม Streak</p>
+<a class="btn" href="#read" style="text-decoration:none;display:inline-block">เริ่มอ่านวันนี้</a>
+</div>
+<div>
+<div class="stats">
+<div class="stat"><b id="sk">6</b><span>🔥 Streak</span></div>
+<div class="stat"><b id="xp">420</b><span>⭐ XP</span></div>
+<div class="stat"><b id="pass">0</b><span>🎟️ Pass</span></div>
+</div>
+<div class="ringbox">
+<svg width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="var(--line)" stroke-width="7"/><circle id="ring" cx="32" cy="32" r="26" fill="none" stroke="var(--blue)" stroke-width="7" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="122.5" transform="rotate(-90 32 32)"/></svg>
+<div><b>เป้าหมายวันนี้</b><div style="font-size:13px;color:var(--mut)"><span id="gl">1</span>/2 บทความ</div></div>
+</div>
+</div>
+</div>
+
+<section id="cal" style="margin-top:20px">
+<h2>Calendar · ตุลาคม 2026</h2><p class="sub">แตะวันที่เพื่อเข้าอ่านบทความได้เลย · อ่านครบ 7 วันติด รับ Archive Pass เพื่อปลดล็อกบทความเก่า 1 บทความ</p>
+<div class="card"><div class="calwrap"><div class="cal" id="calg"></div></div><div id="cd">แตะวันที่เพื่อดูรายละเอียด</div></div>
+</section>
+
+<section id="read">
+<h2>Reading Library</h2><p class="sub">เลือกระดับหรือค้นหาหัวข้อ แล้วกดการ์ดเพื่อเข้าไปอ่านบทความฉบับเต็ม</p>
+<div class="bar"><div class="seg" id="levels"></div><input class="search" id="sq" placeholder="ค้นหาหัวข้อ เช่น sleep, tech…" aria-label="ค้นหา"></div>
+<div class="car" id="car"></div>
+</section>
+
+<section>
+<h2>Saved Words</h2><p class="sub">คำที่คุณบันทึกไว้ ส่งไปทบทวนต่อที่ SMP Vocab</p>
+<div class="card"><div id="saved"></div><div style="margin-top:12px"><a class="btn" style="text-decoration:none;display:inline-block" href="https://smartmathpro.com" target="_blank" rel="noopener">ทบทวนที่ SMP Vocab ↗</a></div></div>
+</section>
+
+<section id="progress">
+<h2>Progress</h2><p class="sub">เวลาอ่านในสัปดาห์นี้ (นาที)</p>
+<div class="grid">
+<div class="card"><b>กิจกรรมรายสัปดาห์</b><div class="bars" id="bars"></div></div>
+<div class="card"><b>เหรียญรางวัล</b><p style="margin:8px 0 0;line-height:2">🥉 อ่านครบ 3 วัน ✅<br><span id="m7">🥈 อ่านครบ 7 วัน · เหลืออีก 1 วัน</span><br>🥇 อ่านครบ 30 วัน 🔒<br>🏆 ผ่านระดับ B2 ✅</p></div>
+</div>
+</section>
+
+
+
+<section id="lb">
+<h2>Leaderboard</h2><p class="sub">ใครอ่านเยอะสุดในสัปดาห์นี้</p>
+<div class="card"><div class="bar"><div class="seg" id="lbtabs"><button class="on" onclick="lt(0)">สัปดาห์นี้</button><button onclick="lt(1)">ตลอดกาล</button></div></div><table class="lb" id="lbt"></table></div>
+</section>
+</div>
+<div class="wrap" id="page" hidden><div id="prog"></div>
+<div class="bar" style="margin-top:14px"><button class="ib" onclick="closeArt()">← กลับ</button>
+<div class="tools"><button class="ib" id="bsp" onclick="sp()" title="ความเร็วเสียง">0.9×</button><button class="ib" onclick="lis()">🔊 ฟังทั้งบทความ</button><button class="ib" id="btth" onclick="tg()">สรุปไทย</button><button class="ib" onclick="sr()">Aa</button><button class="ib" onclick="fs(-1)">A−</button><button class="ib" onclick="fs(1)">A+</button></div></div>
+<div class="ahero" id="ahero"></div>
+<article class="art" id="art">
+<div id="txt" style="font-size:18px"></div>
+<div id="tip">แตะคำสีเหลืองเพื่อดูความหมาย</div>
+<h3>Key vocabulary</h3><div id="vl"></div>
+<h3>Quick quiz</h3><div class="q" id="quiz"></div>
+<textarea class="note" id="note" rows="2" placeholder="✍️ สรุปบทความ 1 ประโยคด้วยภาษาของคุณ (+5 XP)"></textarea>
+<div style="margin-top:16px"><button class="btn y" id="dn" onclick="fin()">✓ อ่านจบแล้ว +20 XP</button> <span id="res" style="font-size:14px;color:var(--mut);margin-left:8px"></span></div>
+<button class="nx" id="nx" onclick="go((cur+1)%6)"></button>
+</article></div>
+<footer>© SMP Reading Club · ทีมวิชาการภาษาอังกฤษ Smart Math Pro</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const A=[
+{l:"A1",n:"Beginner",t:"My Morning Routine",tag:"Daily life",min:1,p:["I wake up at six o’clock. I wash my face and eat rice with eggs. Then I walk to school with my friend.","I like mornings because the air is fresh and the street is quiet."],v:[["routine","กิจวัตร"],["fresh","สดชื่น"],["quiet","เงียบ"]],q:["What does the writer eat?","Rice with eggs","Bread and milk","Noodles"],a:0},
+{l:"A2",n:"Elementary",t:"A Rainy Day in Bangkok",tag:"City news",min:2,p:["When it rains in Bangkok, traffic becomes much slower. Many people take the Skytrain because it is faster than buses.","Street vendors cover their food with plastic, and children enjoy jumping in small puddles."],v:[["traffic","การจราจร"],["vendors","พ่อค้าแม่ค้า"],["puddles","แอ่งน้ำ"]],q:["Why do people take the Skytrain?","It is cheaper","It is faster than buses","It is cleaner"],a:1},
+{l:"B1",n:"Intermediate",t:"Why Sleep Matters for Students",tag:"Health",min:3,p:["Researchers say teenagers need eight to ten hours of sleep each night. However, many students stay up late to study or use their phones.","Lack of sleep can make it harder to concentrate and remember information. Going to bed at a regular time is a simple way to improve your results."],v:[["concentrate","จดจ่อ"],["regular","สม่ำเสมอ"],["improve","พัฒนา"]],q:["What is the main idea?","Phones are dangerous","Good sleep helps learning","Studying at night is best"],a:1},
+{l:"B2",n:"Upper-Int.",t:"The Rise of Remote Learning",tag:"Education",min:4,p:["Online classes, once a temporary solution, have become a permanent feature of education. Supporters argue that they offer flexibility and access to teachers anywhere in the world.","Critics, on the other hand, warn that students may lose motivation without face-to-face interaction. The most effective schools combine both approaches."],v:[["flexibility","ความยืดหยุ่น"],["critics","ผู้วิจารณ์"],["interaction","การมีปฏิสัมพันธ์"]],q:["What do the critics worry about?","High costs","Poor internet","Loss of motivation"],a:2},
+{l:"C1",n:"Advanced",t:"The Attention Economy",tag:"Tech",min:5,p:["In a world saturated with content, human attention has become a scarce commodity. Platforms compete fiercely to hold our gaze, often employing algorithms designed to maximise engagement rather than wellbeing.","Consequently, the ability to sustain deep focus is increasingly regarded as a competitive advantage."],v:[["saturated","อิ่มตัว"],["scarce","หายาก"],["sustain","คงไว้"]],q:["The writer implies that deep focus is…","becoming less useful","a valuable skill","impossible today"],a:1},
+{l:"C2",n:"Proficient",t:"On Epistemic Humility",tag:"Opinion",min:6,p:["Epistemic humility does not entail relativism; rather, it demands that we calibrate our confidence to the strength of our evidence. The intellectually humble reader neither capitulates to every assertion nor dismisses dissenting views out of hand.","Paradoxically, such restraint often fortifies, rather than undermines, the credibility of one’s own conclusions."],v:[["calibrate","ปรับให้สอดคล้อง"],["capitulate","ยอมจำนน"],["fortifies","เสริมความแข็งแกร่ง"]],q:["According to the passage, humility…","weakens credibility","equals relativism","can strengthen credibility"],a:2}];
+const TH={A1:["ฉันตื่นนอนตอนหกโมง ล้างหน้า และกินข้าวกับไข่ จากนั้นเดินไปโรงเรียนกับเพื่อน","ฉันชอบตอนเช้า เพราะอากาศสดชื่นและถนนเงียบสงบ"],A2:["เวลาฝนตกในกรุงเทพฯ การจราจรจะช้าลงมาก หลายคนจึงนั่งรถไฟฟ้า เพราะเร็วกว่ารถเมล์","พ่อค้าแม่ค้าริมทางใช้พลาสติกคลุมอาหาร ส่วนเด็กๆ สนุกกับการกระโดดเล่นในแอ่งน้ำเล็กๆ"],B1:["นักวิจัยระบุว่าวัยรุ่นต้องการนอนหลับ 8–10 ชั่วโมงต่อคืน แต่นักเรียนจำนวนมากอดนอนเพื่ออ่านหนังสือหรือเล่นโทรศัพท์","การนอนไม่พอทำให้จดจ่อและจดจำข้อมูลได้ยากขึ้น การเข้านอนเป็นเวลาสม่ำเสมอจึงเป็นวิธีง่ายๆ ที่ช่วยให้ผลลัพธ์ดีขึ้น"],B2:["การเรียนออนไลน์ซึ่งเคยเป็นเพียงทางออกชั่วคราว กลายเป็นส่วนถาวรของการศึกษา ผู้สนับสนุนมองว่าเรียนได้ยืดหยุ่นและเข้าถึงครูได้จากทั่วโลก","ฝ่ายวิจารณ์เตือนว่านักเรียนอาจขาดแรงจูงใจเมื่อไม่ได้เจอหน้ากัน โรงเรียนที่ได้ผลดีที่สุดจึงผสมผสานทั้งสองแบบ"],C1:["ในโลกที่เต็มไปด้วยคอนเทนต์ ความสนใจของมนุษย์กลายเป็นสิ่งหายาก แพลตฟอร์มแข่งกันดึงสายตาเรา โดยมักใช้อัลกอริทึมที่เน้นการมีส่วนร่วมมากกว่าความเป็นอยู่ที่ดี","ดังนั้น ความสามารถในการจดจ่อลึกๆ อย่างต่อเนื่องจึงถูกมองว่าเป็นข้อได้เปรียบในการแข่งขันมากขึ้นเรื่อยๆ"],C2:["ความถ่อมตนทางความรู้ไม่ได้หมายถึงสัมพัทธนิยม แต่คือการปรับความมั่นใจให้สอดคล้องกับน้ำหนักของหลักฐาน ผู้อ่านที่ถ่อมตนอย่างมีปัญญาจะไม่คล้อยตามทุกคำกล่าวอ้าง และไม่ปัดตกความเห็นต่างทันที","น่าแปลกที่การรู้จักยับยั้งเช่นนี้มักเสริม ไม่ใช่ลดความน่าเชื่อถือของข้อสรุปของเราเอง"]};
+let qok=false,showTh=false,rate=.9;
+const $=id=>document.getElementById(id);
+function rt(){const x=A[cur];$("txt").innerHTML=x.p.map((p,i)=>`<p>${esc(p,x.v)}${showTh?`<span class="th">${TH[x.l][i]}</span>`:""}</p>`).join("")}
+function tg(){showTh=!showTh;$("btth").classList.toggle("on",showTh);rt()}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=rate;speechSynthesis.speak(u)}catch(e){toast("เบราว์เซอร์นี้ไม่รองรับเสียง")}}
+function lis(){say(A[cur].p.join(" "));toast("🔊 กำลังอ่านออกเสียง")}
+function sp(){rate=rate==.9?.7:rate==.7?1.1:.9;$("bsp").textContent=rate+"×"}
+function sr(){$("txt").classList.toggle("serif")}
+let cur=0,xp=420,sk=6,gl=1,pass=0,fsz=17,sec=0,done=false,saved=new Set(["scarce","routine"]),usedDays=new Set(),week=[12,8,15,10,14,9,0],lbm=0,tmr;
+const toast=m=>{const t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(()=>t.classList.remove("on"),2200)};
+try{const s=localStorage.getItem("smp-theme");if(s)document.documentElement.dataset.theme=s}catch(e){}
+$("th").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark";try{localStorage.setItem("smp-theme",d.dataset.theme)}catch(e){}};
+function lv(){$("levels").innerHTML=A.map((x,i)=>`<button class="${i==cur?'on':''}" onclick="pick(${i})">${x.l}</button>`).join("")}
+function esc(s,v){v.forEach(([w])=>s=s.replace(new RegExp("\\b("+w+")\\b","i"),`<button class="w" onclick="tip('$1')">$1</button>`));return s}
+function art(){const x=A[cur];done=false;sec=0;
+$("arthead").innerHTML=`<h3 style="margin:0;font-size:22px">${x.t}</h3><div class="meta"><span>${x.l} · ${x.n}</span><span class="t">${x.tag}</span><span>📰 ปรับจากสายข่าว/บทความ</span><span>✍️ SMP English Team</span></div>`;
+rt();$("btth").classList.toggle("on",showTh);
+$("wc").textContent=x.p.join(" ").split(/\s+/).length+" คำ";
+$("tip").textContent="แตะคำที่ไฮไลต์เพื่อดูความหมาย";
+$("quiz").innerHTML=`<b>${x.q[0]}</b>`+x.q.slice(1).map((o,i)=>`<button onclick="ans(this,${i})">${o}</button>`).join("");
+$("dn").disabled=false;$("dn").textContent="✓ อ่านจบแล้ว +20 XP";$("res").textContent="";qok=false;$("note").value="";try{speechSynthesis.cancel()}catch(e){}
+clearInterval(tmr);tmr=setInterval(()=>{sec++;$("tm").textContent=String(sec/60|0).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")},1000);$("tm").textContent="00:00"}
+function pick(i){cur=i;lv();art()}
+function go(i){pick(i);$("read").scrollIntoView({behavior:"smooth"})}
+const G=[["#5CC8FF","#0B52E0"],["#2AA9FF","#0A3FB8"],["#0B52E0","#1A2F8F"],["#0B52E0","#00A3FF"],["#1A66F0","#6A3FE0"],["#0A1F5C","#0B52E0"]];
+function car(){$("car").innerHTML=A.map((x,i)=>`<div class="cc" tabindex="0" onclick="go(${i})"><div class="top" style="background:linear-gradient(135deg,${G[i][0]},${G[i][1]})"><b>${x.l}</b><span>⏱ ${x.min} นาที</span></div><div class="bd"><div class="meta" style="margin:0"><span class="t">${x.tag}</span><span>${x.n}</span></div><h3>${x.t}</h3><div style="font-size:13px;color:var(--mut)">${x.p[0].slice(0,72)}…</div><div style="margin-top:10px;color:var(--blue);font-weight:600;font-size:14px">อ่านเลย →</div></div></div>`).join("")}
+function sl(d){const c=$("car");c.scrollBy({left:d*c.clientWidth*.9,behavior:"smooth"})}
+function fs(d){fsz=Math.min(24,Math.max(14,fsz+d*2));$("txt").style.fontSize=fsz+"px"}
+function tip(w){const v=A[cur].v.find(x=>x[0].toLowerCase()==w.toLowerCase());
+$("tip").innerHTML=`<b>${v[0]}</b> = ${v[1]} <button class="ib" onclick="say('${v[0]}')">🔊</button> <button class="ib" onclick="sv('${v[0]}')">${saved.has(v[0])?'✓ บันทึกแล้ว':'＋ บันทึกคำ'}</button>`}
+function sv(w){saved.add(w);tip(w);sw();toast("บันทึกคำว่า “"+w+"” แล้ว")}
+function sw(){$("saved").innerHTML=[...saved].map(w=>`<span class="chip">${w}</span>`).join("")||"ยังไม่มีคำที่บันทึก"}
+function ans(b,i){const bs=b.parentNode.querySelectorAll("button");bs.forEach(e=>e.disabled=true);bs[A[cur].a].classList.add("right");if(i!=A[cur].a)b.classList.add("wrong");qok=i==A[cur].a}
+function fin(){if(done)return;done=true;clearInterval(tmr);const bonus=(qok?10:0)+($("note").value.trim().split(/\s+/).filter(Boolean).length>=3?5:0);xp+=20+bonus;sk++;gl=Math.min(2,gl+1);
+const words=A[cur].p.join(" ").split(/\s+/).length,wpm=Math.round(words/Math.max(sec,10)*60);
+week[6]+=Math.max(1,Math.round(sec/60));
+if(sk>=7&&!usedDays.has("p")){usedDays.add("p");pass++;toast("🎟️ ได้ Archive Pass! อ่านครบ 7 วันติด")}else toast("+"+(20+bonus)+" XP · Streak "+sk+" วัน");
+$("dn").disabled=true;$("dn").textContent="✓ บันทึกแล้ว";$("res").textContent=`ความเร็วอ่าน ~${wpm} wpm${bonus?` · โบนัส +${bonus} XP`:""}`;upd()}
+function upd(){$("sk").textContent=sk;$("xp").textContent=xp;$("pass").textContent=pass;$("gl").textContent=gl;
+$("ring").style.strokeDashoffset=163.4*(1-gl/2);
+$("m7").textContent=sk>=7?"🥈 อ่านครบ 7 วัน ✅":"🥈 อ่านครบ 7 วัน · เหลืออีก "+(7-sk)+" วัน";
+const mx=Math.max(...week,1);$("bars").innerHTML=week.map((m,i)=>`<div class="${i==6?'today':''}"><i style="height:${m/mx*80+2}px"></i>${["อ","พ","พฤ","ศ","ส","อา","วันนี้"][i]}</div>`).join("");
+lb();cal()}
+const dn=["จ","อ","พ","พฤ","ศ","ส","อา"];
+function cal(){let h=dn.map(d=>`<div class="h">${d}</div>`).join("")+"<span></span><span></span><span></span>";
+for(let d=1;d<=31;d++){const x=A[(d-1)%6];let c="",s="";
+if(d==26){c="today";s="📖 อ่านเลย"}else if(d>=20&&d<26){c="done";s="✓ อ่านแล้ว"}else if(usedDays.has(d)){c="done";s="🎟️ ปลดล็อกแล้ว"}else if(d<26){c="lock";s="🔒 ล็อก"}else{c="lock";s="⏳ เร็วๆ นี้"}
+h+=`<button class="${c}" onclick="cd(${d})"><b>${d}</b><span class="lvl">${x.l}</span><span class="ti">${x.t}</span><small>${s}</small></button>`}
+$("calg").innerHTML=h}
+function cd(d){const i=(d-1)%6,x=A[i];let b="";if(d==26||(d>=20&&d<26)||usedDays.has(d)){go(i);return}
+if(d==26)b=`<button class="btn" onclick="pick(${i});location.hash='read'">อ่านเลย</button>`;
+else if(d>26)b="⏳ จะเปิดให้อ่านในวันที่ "+d+" ต.ค.";
+else if(d>=20||usedDays.has(d))b=`✓ อ่านแล้ว · <button class="ib" onclick="pick(${i});location.hash='read'">อ่านซ้ำ</button>`;
+else if(pass>0)b=`🎟️ ใช้ Archive Pass ปลดล็อกบทความนี้ <button class="btn" onclick="use(${d})">ปลดล็อก</button>`;
+else b="🔒 ต้องมี Archive Pass (อ่านครบ 7 วันติด) จึงจะปลดล็อกบทความเก่าได้";
+$("cd").innerHTML=`<b>${d} ต.ค. · ${x.l}</b> — ${x.t}<br><span style="color:var(--mut)">${x.tag} · ${x.min} นาที · SMP English Team</span><div style="margin-top:10px">${b}</div>`}
+function use(d){pass--;usedDays.add(d);toast("ปลดล็อกบทความวันที่ "+d+" แล้ว");upd();cd(d)}
+function lt(i){lbm=i;[...$("lbtabs").children].forEach((b,j)=>b.classList.toggle("on",i==j));lb()}
+function lb(){const r=lbm?[["Mind P.",9840],["Nong Fah",9120],["Ploy 🌸",8450],["Ton",6020],["Bank",5310]]:[["Mind P.",1250],["Nong Fah",1180],["Ploy 🌸",980],["Ton",760],["Bank",610]];
+r.push(["คุณ",lbm?xp+3000:xp+300]);r.sort((a,b)=>b[1]-a[1]);
+$("lbt").innerHTML=r.map((x,i)=>`<tr class="${x[0]=="คุณ"?'me':''}"><td>${["🥇","🥈","🥉"][i]||i+1}</td><td>${x[0]}</td><td>${x[1].toLocaleString()} XP</td></tr>`).join("")}
+sw();upd();
+</script>
+<script>
+const L=[
+{th:"ผู้เขียนเล่ากิจวัตรตอนเช้า ตั้งแต่ตื่นนอน กินข้าวกับไข่ จนเดินไปโรงเรียนกับเพื่อน",
+v:[["routine","กิจวัตร"],["fresh","สดชื่น"],["quiet","เงียบ"],["alarm","นาฬิกาปลุก"],["kitchen","ห้องครัว"],["corner","หัวมุมถนน"]],
+q:[["What does the writer eat for breakfast?","Rice with eggs","Bread and jam","Noodles",0],["Who does the writer walk to school with?","A brother","A friend named Nok","A teacher",1],["How is the street in the morning?","Quiet","Very busy","Dirty",0]],
+p:["# Getting up","I wake up at six o’clock every day. My alarm is loud, so I get up fast. I wash my face and brush my teeth. The water is cold, but it makes me feel fresh.","# Breakfast","Then I go to the kitchen. My mother makes rice with eggs for me. I like it very much. I also drink a glass of milk. We talk about our day while we eat. My little brother always asks for more eggs!","# Going to school","At seven o’clock, I walk to school with my friend, Nok. The street is quiet in the morning. Some old men sit and read the news. A woman sells flowers near the corner. She always says, “Good morning!” to us.","I like mornings because the air is fresh and the day is new. A good morning routine makes me happy at school."]},
+{th:"ฝนในกรุงเทพฯ ทำให้รถติดและคนหันไปใช้รถไฟฟ้า พ่อค้าแม่ค้าต้องปรับตัว ส่วนเด็กๆ สนุกกับแอ่งน้ำ สุดท้ายเมืองก็สวยในแบบของมัน",
+v:[["traffic","การจราจร"],["vendors","พ่อค้าแม่ค้า"],["puddles","แอ่งน้ำ"],["passengers","ผู้โดยสาร"],["umbrellas","ร่ม"],["especially","โดยเฉพาะ"]],
+q:[["Why do many people take the Skytrain?","It is cheaper than taxis","It is faster than buses","It has free food",1],["What do vendors do on rainy days?","Close their shops","Cover their food with plastic","Sell only umbrellas",1],["How do children feel about the rain?","They enjoy playing in it","They are afraid of it","They stay inside",0]],
+p:["# When the sky opens","In Bangkok, the rainy season lasts from May to October. Sometimes the sky is blue in the morning, and an hour later the rain starts to fall very hard. People run to find a place to stand, and many open their umbrellas.","# The traffic problem","When it rains, traffic becomes much slower. Some roads fill with water, and cars cannot move for a long time. Because of this, many people take the Skytrain. It is faster than buses, and the passengers do not get wet. The platforms are full, but the trains come every few minutes.","# Life on the street","Street vendors have a hard job on rainy days. They cover their food with plastic and move their carts under a roof. Still, hungry customers come for hot noodles and grilled chicken. A bowl of soup tastes especially good in the rain.","Children see the rain in a different way. After school, they enjoy jumping in small puddles and laughing with friends. Their parents say, “Be careful!” but they are smiling too.","# A cool evening","By evening, the rain stops and the air feels cooler. The city shines under the street lights. Many people say that a rainy day in Bangkok is difficult, but it is also beautiful."]},
+{th:"วัยรุ่นต้องนอน 8–10 ชั่วโมง เพราะสมองจัดเก็บความจำระหว่างหลับ การนอนไม่พอทำให้ไม่มีสมาธิและอารมณ์แย่ แต่แก้ได้ด้วยการเข้านอนเป็นเวลาและวางมือถือก่อนนอน",
+v:[["concentrate","จดจ่อ"],["regular","สม่ำเสมอ"],["improve","พัฒนา"],["immune","ภูมิคุ้มกัน"],["naturally","ตามธรรมชาติ"],["luxury","ของฟุ่มเฟือย"]],
+q:[["How many hours of sleep do teenagers need?","Six to seven","Eight to ten","Ten to twelve",1],["What does the brain do during sleep?","It turns off completely","It stores what we learned","It forgets old lessons",1],["Why put your phone away before bed?","Screens tell the brain it is still daytime","Phones use too much battery","It is rude to use them",0]],
+p:["# A hidden problem","Imagine a student who studies until midnight, checks her phone in bed, and wakes up at six for school. By afternoon, she can hardly keep her eyes open. This is not unusual. Researchers say that teenagers need between eight and ten hours of sleep each night, but surveys show that most students get far less.","# What happens inside the brain","Sleep is not just a break for the body. While we sleep, the brain organises what we learned during the day and stores it as long-term memory. Without enough sleep, this process is incomplete. As a result, students find it harder to concentrate in class and to remember information for exams.","Lack of sleep also affects mood. Tired teenagers are more likely to feel stressed, angry, or sad. Some studies even link poor sleep with a weaker immune system, which means students get sick more often.","# Why students stay up late","There are many reasons. Homework and tutoring classes take up the evening. Social media and games are designed to keep us watching. In addition, teenagers’ body clocks naturally shift later, so they feel awake at night even when they are tired.","# Simple ways to improve","The good news is that small changes can help. First, go to bed and wake up at a regular time, even on weekends. Second, put your phone away at least thirty minutes before sleeping, because bright screens tell the brain that it is still daytime. Third, avoid coffee and energy drinks in the afternoon. Finally, keep your room dark and cool.","Better sleep is not a luxury; it is one of the easiest ways to improve your results. Tonight, try going to bed just thirty minutes earlier and notice how you feel tomorrow."]},
+{th:"การเรียนออนไลน์กลายเป็นส่วนถาวรของการศึกษา ข้อดีคือยืดหยุ่นและเข้าถึงครูทั่วโลก ข้อเสียคือขาดแรงจูงใจและเหลื่อมล้ำ โรงเรียนที่ดีที่สุดจึงผสมทั้งสองแบบ",
+v:[["flexibility","ความยืดหยุ่น"],["unprecedented","ที่ไม่เคยมีมาก่อน"],["drawbacks","ข้อเสีย"],["interaction","การมีปฏิสัมพันธ์"],["inequality","ความเหลื่อมล้ำ"],["collaboration","การทำงานร่วมกัน"]],
+q:[["What does the writer say about remote learning today?","It remains a temporary measure","It has become a permanent part of education","It is disappearing",1],["What concern do critics raise?","Students may lose motivation","Teachers earn too little","Lessons are too short",0],["What do the most effective schools do?","Use only online classes","Avoid all technology","Combine online and classroom learning",2]],
+p:["# From emergency to everyday","When schools closed around the world in 2020, online classes were meant to be a temporary solution. Yet years later, remote learning has settled into education as a permanent feature. Universities offer entire degrees online, and even traditional schools now use video lessons, digital homework, and virtual classrooms as part of normal teaching.","# The case in favour","Supporters argue that remote learning offers unprecedented flexibility. Students can revisit recorded lessons as many times as they need, study at the hours that suit their energy, and learn from teachers anywhere in the world. For families in remote areas, this can be life-changing: a student in a small village may now follow the same physics course as a classmate in a capital city. Moreover, online tools can adapt to each learner, offering extra practice exactly where it is needed.","# The case against","Critics, however, point to serious drawbacks. Without face-to-face interaction, students may lose motivation, and weaker learners are often the first to fall behind. Screens do not replace the encouragement of a teacher who notices when someone looks confused. There is also the issue of inequality: reliable internet and a quiet place to study are not available to everyone, so the digital divide can widen the gap between rich and poor.","# What the evidence suggests","Research so far paints a mixed picture. Self-disciplined, well-supported students often do as well online as in classrooms, whereas younger children and those with fewer resources tend to struggle. The most effective schools, it seems, combine both approaches: they use technology for flexibility and personalised practice, while keeping classroom time for discussion, collaboration, and personal support.","Ultimately, the question is no longer whether to learn online, but how to do it well. The answer will probably depend less on the technology itself than on how thoughtfully teachers and students use it."]},
+{th:"ในโลกที่เต็มไปด้วยคอนเทนต์ ความสนใจคือทรัพยากรหายาก แพลตฟอร์มออกแบบมาให้เราติด ซึ่งกัดกร่อนสมาธิ ผู้ที่จดจ่อได้ลึกจึงได้เปรียบ",
+v:[["saturated","อิ่มตัว"],["scarce","หายาก"],["maximise","ทำให้ได้สูงสุด"],["exploit","ใช้ประโยชน์"],["erodes","กัดกร่อน"],["sustain","คงไว้"]],
+q:[["According to the passage, what has become scarce?","Information","Attention","Technology",1],["How does the writer explain platforms’ behaviour?","A deliberate conspiracy","Incentives that reward capturing attention","Ignorance of designers",1],["The passage implies that deep focus is…","a valuable skill","becoming less useful","impossible today",0]],
+p:["# A scarce resource","In a world saturated with content, attention has become a scarce commodity: the one resource that cannot be manufactured. Every minute of the day, millions of articles, videos, and notifications compete for the few seconds we are willing to give them. Economists have long observed that when something becomes abundant, whatever it consumes becomes valuable; in this case, an abundance of information has created a poverty of attention.","# Designed to hook","Many digital platforms earn their revenue by holding our gaze. Their algorithms are trained to maximise engagement—clicks, shares, and watch-time—rather than wellbeing or understanding. Features such as infinite scroll, autoplay, and variable rewards exploit well-documented quirks of human psychology, making it remarkably difficult to stop. The result is not a conspiracy but an incentive structure: whichever product captures more attention tends to prosper, and the rest quietly disappear.","# The hidden costs","The consequences extend beyond wasted time. Psychologists warn that constant task-switching erodes our capacity for sustained thought, leaving us restless when confronted with anything demanding. Some researchers even suggest that the mere presence of a smartphone on the desk reduces available cognitive capacity, although this finding remains debated. What is clear is that deep, uninterrupted reading has become rarer, and with it the patient reasoning that complex problems require.","# Reclaiming focus","Responses are emerging at both the individual and the societal level. Individuals experiment with notification limits, ‘digital sabbaths’, and deliberate periods of single-tasking. Meanwhile, regulators in several countries are scrutinising manipulative design practices, and some technologists are calling for products that respect, rather than harvest, their users’ time.","Consequently, the ability to sustain deep focus is increasingly regarded as a competitive advantage. In an economy where distraction is the default, those who can think without interruption may hold a quiet but decisive edge."]},
+{th:"ความถ่อมตนทางความรู้ไม่ใช่ความไม่มั่นใจหรือสัมพัทธนิยม แต่คือการปรับความมั่นใจให้ตรงกับหลักฐาน หลีกเลี่ยงทั้งการเชื่อง่ายและการดื้อรั้น และการยับยั้งเช่นนี้เสริมความน่าเชื่อถือ",
+v:[["calibrate","ปรับให้สอดคล้อง"],["capitulates","ยอมจำนน"],["credulous","เชื่อง่าย"],["dogmatist","ผู้ยึดมั่นในลัทธิ"],["abdicate","สละ (หน้าที่)"],["fortifies","เสริมความแข็งแกร่ง"]],
+q:[["What does epistemic humility require?","Doubting every claim equally","Matching confidence to the strength of evidence","Avoiding all disagreement",1],["What do the credulous reader and the dogmatist share?","Both abdicate the work of weighing reasons","Both value evidence highly","Both avoid public debate",0],["What often happens when we show appropriate restraint?","Our arguments lose force","Our conclusions become more credible","Our audience becomes confused",1]],
+p:["# A misunderstood virtue","Epistemic humility is routinely mistaken for timidity, or worse, for relativism. Yet it entails neither. To be epistemically humble is not to assert that all views are equally valid; it is to calibrate one’s confidence to the strength of one’s evidence, and to remain alert to the possibility of error. The distinction is subtle but consequential.","# Two failure modes","Consider the two vices that flank this virtue. At one extreme stands the credulous reader, who capitulates to every assertion delivered with sufficient eloquence. At the other stands the dogmatist, who dismisses dissenting views out of hand and mistakes stubbornness for strength. Both, paradoxically, abdicate the same responsibility: the laborious work of weighing reasons. The credulous outsource their judgement; the dogmatist forecloses it.","# The practice of calibration","What, then, does calibration look like in practice? It begins with asking what would change one’s mind. If no conceivable evidence could do so, the belief has ceased to be an inference and become an article of faith. It continues with distinguishing between claims supported by convergent, independent lines of evidence and those resting on a single, vivid anecdote. And it culminates in expressing conclusions with proportionate qualifiers—‘probably’, ‘on balance’, ‘as far as we can tell’—not as rhetorical hedges, but as honest reports of one’s epistemic position.","# The social dimension","Humility is not merely a private disposition; it has civic consequences. Public discourse degenerates when every participant treats uncertainty as weakness and concession as defeat. By contrast, a culture that rewards people for updating their views in response to better arguments creates conditions in which inquiry can actually progress.","Paradoxically, such restraint often fortifies, rather than undermines, the credibility of one’s own conclusions. Audiences instinctively trust those who acknowledge the limits of their knowledge, for they recognise that confidence untethered from evidence is merely noise."]}];
+A.forEach((x,i)=>{Object.assign(x,L[i]);x.words=x.p.filter(t=>t[0]!="#").join(" ").split(/\s+/).length;x.min=Math.ceil(x.words/110)});
+let fi=0,sc=0,t0=0;const rd=new Set();
+function lv(){$("levels").innerHTML=["ทั้งหมด",...A.map(x=>x.l)].map((l,i)=>`<button class="${i==fi?'on':''}" onclick="fi=${i};lv();car()">${l}</button>`).join("")}
+function car(){const q=$("sq").value.toLowerCase().trim();const h=A.map((x,i)=>[x,i]).filter(([x,i])=>(!fi||fi==i+1)&&(!q||(x.t+x.tag+x.p.join(" ")).toLowerCase().includes(q))).map(([x,i])=>`<div class="cc" tabindex="0" onclick="go(${i})" onkeydown="if(event.key=='Enter')go(${i})"><div class="top" style="background:linear-gradient(135deg,${G[i][0]},${G[i][1]})"><b>${x.l}</b><i>${rd.has(i)?"✅ อ่านแล้ว":"📖 "+x.words+" คำ"}</i><span>⏱ ${x.min} นาที</span></div><div class="bd"><div class="meta" style="margin:0"><span class="t">${x.tag}</span><span>${x.n}</span></div><h3>${x.t}</h3><div style="font-size:13px;color:var(--mut)">${x.p[1].slice(0,80)}…</div><div style="margin-top:10px;color:var(--blue);font-weight:600;font-size:14px">อ่านบทความเต็ม →</div></div></div>`);$("car").innerHTML=h.join("")||'<p class="sub">ไม่พบบทความ ลองคำอื่นดูนะ</p>'}
+$("sq").oninput=car;
+function rt(){let f=1;const x=A[cur];$("txt").innerHTML=(showTh?`<div class="thx">🇹🇭 ${x.th}</div>`:"")+x.p.map((p,i)=>p[0]=="#"?`<h3>${p.slice(2)}</h3>`:`<p${f&&!(f=0)?' class="f"':''}>${esc(p,x.v)}<button class="sp" onclick="say(A[cur].p[${i}])" aria-label="ฟัง">🔊</button></p>`).join("")}
+function lis(){say(A[cur].p.filter(t=>t[0]!="#").join(" "));toast("🔊 กำลังอ่านออกเสียง")}
+function boom(n){for(let i=0;i<n;i++){const e=document.createElement("span");e.className="conf";e.textContent=["🎉","⭐","✨","📚","🔥"][i%5];e.style.left=Math.random()*100+"vw";e.style.setProperty("--x",(Math.random()*200-100)+"px");e.style.animationDelay=Math.random()*.5+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),3000)}}
+function show(i){cur=i;const x=A[i];done=false;sc=0;t0=Date.now();$("home").hidden=true;$("page").hidden=false;
+$("ahero").style.background=`linear-gradient(135deg,${G[i][0]},${G[i][1]})`;
+$("ahero").innerHTML=`<div class="lvl">${x.l}</div><div class="ahd"><span>${x.n}</span><span>${x.tag}</span><span>⏱ ${x.min} นาที</span><span>${x.words} คำ</span></div><h1>${x.t}</h1><div class="ahd"><span>✍️ SMP English Team</span></div>`;
+rt();$("tip").textContent="แตะคำสีเหลืองเพื่อดูความหมาย";
+$("vl").innerHTML=x.v.map(([w,t])=>`<div class="vr"><b>${w}</b><span>${t}</span><button class="ib" onclick="say('${w}')">🔊</button><button class="ib" onclick="sv('${w}')">＋ บันทึก</button></div>`).join("");
+$("quiz").innerHTML=x.q.map((q,k)=>`<div style="margin-bottom:18px"><b>${k+1}. ${q[0]}</b>`+q.slice(1,4).map((o,j)=>`<button onclick="qa(this,${k},${j})">${o}</button>`).join("")+`</div>`).join("");
+$("note").value="";$("dn").disabled=false;$("dn").textContent="✓ อ่านจบแล้ว +20 XP";$("res").textContent="";
+const n=A[(i+1)%6];$("nx").innerHTML=`ต่อไป: ${n.l} · ${n.t} →`;
+try{speechSynthesis.cancel()}catch(e){}window.scrollTo(0,0);scr()}
+function qa(b,k,j){const c=A[cur].q[k][4],bs=b.parentNode.querySelectorAll("button");bs.forEach(e=>e.disabled=true);bs[c].classList.add("right");if(j==c){sc++;boom(8);toast("ถูกต้อง! 🎯")}else{b.classList.add("wrong");toast("ไม่เป็นไร ลองข้อต่อไป 💪")}}
+function fin(){if(done)return;done=true;const x=A[cur],sec=(Date.now()-t0)/1000,wpm=Math.round(x.words/Math.max(sec/60,.5)),bonus=sc*5+($("note").value.trim().split(/\s+/).filter(Boolean).length>=3?5:0),g=20+bonus;
+xp+=g;sk++;gl=Math.min(2,gl+1);week[6]+=Math.max(1,Math.round(sec/60));rd.add(cur);
+if(sk>=7&&!usedDays.has("p")){usedDays.add("p");pass++;toast("🎟️ ได้ Archive Pass! อ่านครบ 7 วันติด")}else toast("+"+g+" XP · Streak "+sk+" วัน");
+boom(30);$("dn").disabled=true;$("dn").textContent="✓ บันทึกแล้ว";$("res").textContent=`ตอบถูก ${sc}/3 · ~${wpm} wpm · โบนัส +${bonus} XP`;upd();car()}
+function scr(){if($("page").hidden)return;const r=$("art").getBoundingClientRect();$("prog").style.width=Math.min(100,Math.max(0,-r.top/Math.max(r.height-innerHeight,1)*100))+"%"}
+addEventListener("scroll",scr,{passive:true});
+function go(i){show(i);try{location.hash="a"+i}catch(e){}}
+function home(t){$("page").hidden=true;$("home").hidden=false;try{speechSynthesis.cancel()}catch(e){}const e=$(t||"read");e&&e.scrollIntoView()}
+function closeArt(){home();try{location.hash="read"}catch(e){}}
+function route(){const m=location.hash.match(/^#a([0-5])$/);if(m){if($("page").hidden||cur!=+m[1])show(+m[1])}else if(!$("page").hidden)home(location.hash.slice(1))}
+addEventListener("hashchange",route);
+lv();car();route();
+</script>
+</body>
+</html>
